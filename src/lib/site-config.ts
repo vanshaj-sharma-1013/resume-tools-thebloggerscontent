@@ -19,4 +19,4 @@ export function getSiteOrigin(): string {
 }
 
 export const defaultDescription =
-  "Free resume maker with professional themes, ATS-friendly structure, and instant PDF preview. No login, no subscription, no watermark — build your resume in your browser.";
+  "Free resume builder and free resume maker with professional themes, ATS-friendly structure, and instant PDF preview. No login, no subscription, no watermark — build your resume in your browser with free resume tools.";

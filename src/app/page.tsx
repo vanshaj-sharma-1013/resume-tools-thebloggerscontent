@@ -15,7 +15,9 @@ import {
 } from "@/lib/site-config";
 
 const keywords = [
+  "free resume builder",
   "free resume maker",
+  "free resume tools",
   "resume builder no login",
   "online resume maker free",
   "ATS friendly resume",
@@ -30,7 +32,7 @@ const origin = getSiteOrigin();
 
 export const metadata: Metadata = {
   title: {
-    absolute: `${SITE_NAME} — Free Resume Maker Online (No Login, No Watermark)`,
+    absolute: `${SITE_NAME} — Free Resume Builder & Free Resume Maker (No Login, No Watermark)`,
   },
   description: defaultDescription,
   keywords: [...keywords],
