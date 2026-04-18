@@ -48,7 +48,11 @@ export default function AboutPage() {
                 <span className="text-secondary">without the friction</span>
               </h1>
               <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-foreground-muted">
-                We are a small product team behind {SITE_BRAND}. {SITE_NAME}{" "}
+                We are a small product team behind{" "}
+                <strong>
+                  <Link className="underline" title="The Bloggers Content" href={"https://thebloggerscontent.com/"}>{SITE_BRAND}</Link>.
+                </strong>
+                {SITE_NAME}{" "}
                 exists because job hunting is hard enough; formatting a PDF
                 should not be another job on its own.
               </p>

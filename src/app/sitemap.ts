@@ -21,7 +21,7 @@ const pages: PageEntry[] = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const origin = getSiteOrigin();
+  const origin =  "https://freeresumetools.thebloggerscontent.com"
   const lastModified = new Date();
 
   return pages.map((page) => ({

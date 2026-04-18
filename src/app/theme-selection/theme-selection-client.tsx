@@ -47,6 +47,8 @@ export function ThemeSelectionClient() {
             Select the visual system that fits your industry. Your content is
             stored on this device only—we will use this choice when PDF export
             arrives.
+            <br />
+            <b>Note:</b> A new theme is currently in development—stay tuned!
           </p>
           <p className="mt-2 font-mono text-xs text-secondary">
             ~30 seconds · saves automatically

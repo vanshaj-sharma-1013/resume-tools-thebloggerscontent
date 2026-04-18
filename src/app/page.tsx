@@ -91,14 +91,14 @@ export default function Home() {
       <MarketingPageShell>
         <SiteHeader active="home" />
 
-        <main className="relative z-10 flex flex-1 flex-col">
+        <section className="relative z-10 flex flex-1 flex-col">
           <HomeHero />
           <HomeProcess />
           <HomeFeatureGrid />
           <HomeFaq />
           <HomeCtaBanner />
           <SiteFooter />
-        </main>
+        </section>
       </MarketingPageShell>
     </>
   );

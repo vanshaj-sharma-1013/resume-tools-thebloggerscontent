@@ -69,7 +69,7 @@ const features = [
 
 export function HomeFeatureGrid() {
   return (
-    <section
+    <main
       id="features"
       className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
     >
@@ -125,6 +125,6 @@ export function HomeFeatureGrid() {
           Open ATS checker
         </Link>
       </div>
-    </section>
+    </main>
   );
 }
