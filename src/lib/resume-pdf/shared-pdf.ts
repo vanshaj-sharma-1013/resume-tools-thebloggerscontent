@@ -25,6 +25,11 @@ export function experienceHasBody(
   );
 }
 
+export function experienceRows(draft: ResumeDraft) {
+  if (draft.experienceSkipped) return [];
+  return draft.experiences.filter(experienceHasBody);
+}
+
 export function educationRows(draft: ResumeDraft) {
   if (draft.educationSkipped) return [];
   return draft.education.filter(
@@ -46,6 +51,7 @@ export function buildContactChunks(
   const location = contact.location.trim();
   const li = contact.linkedIn.trim();
   const web = contact.website.trim();
+  const gh = contact.github.trim();
 
   if (email) {
     chunks.push({ kind: "mailto", label: email, href: `mailto:${email}` });
@@ -66,6 +72,13 @@ export function buildContactChunks(
       href: withHttp(web),
     });
   }
+  if (gh) {
+    chunks.push({
+      kind: "link",
+      label: `GitHub (${displayUrl(gh)})`,
+      href: withHttp(gh),
+    });
+  }
   return chunks;
 }
 
@@ -81,3 +94,12 @@ export function splitSkillsIntoColumns(
 }
 
 export { parseBulletLines, parseSkillTokens };
+
+/** Parse comma- or newline-separated languages list */
+export function parseLanguageTokens(raw: string): string[] {
+  if (!raw.trim()) return [];
+  return raw
+    .split(/[\n,]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}

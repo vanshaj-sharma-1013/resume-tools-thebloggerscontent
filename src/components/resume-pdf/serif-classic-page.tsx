@@ -4,108 +4,73 @@ import type { ResumeDraft } from "@/lib/resume-draft";
 import {
   buildContactChunks,
   educationRows,
-  experienceHasBody,
+  experienceRows,
   formatDateRange,
   parseBulletLines,
+  parseLanguageTokens,
   parseSkillTokens,
 } from "@/lib/resume-pdf/shared-pdf";
 
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 40,
+    paddingTop: 42,
     paddingBottom: 40,
     paddingHorizontal: 48,
     fontFamily: "Times-Roman",
-    fontSize: 10,
+    fontSize: 10.5,
     color: "#000000",
-    lineHeight: 1.45,
+    lineHeight: 1.4,
   },
-  name: {
-    fontFamily: "Times-Bold",
-    fontSize: 22,
-    color: "#000000",
-    marginBottom: 6,
-  },
-  contactLine: {
-    marginTop: 6,
-    fontSize: 10,
-    lineHeight: 1.5,
-  },
-  headerRule: {
-    height: 1,
-    backgroundColor: "#000000",
-    marginTop: 10,
-    marginBottom: 12,
-  },
+  header: { textAlign: "center", marginBottom: 18 },
+  name: { fontFamily: "Times-Bold", fontSize: 21, marginBottom: 4 },
+  contact: { fontSize: 9.5, color: "#27272a" },
   sectionTitle: {
     fontFamily: "Times-Bold",
     fontSize: 10,
     textTransform: "uppercase",
-    letterSpacing: 0.5,
-    marginTop: 12,
+    letterSpacing: 1.2,
+    marginTop: 18,
     marginBottom: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: "#000000",
+    paddingBottom: 2,
   },
-  sectionRule: {
-    height: 1,
-    backgroundColor: "#000000",
-    marginBottom: 10,
-  },
-  rowBetween: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginTop: 10,
-  },
-  rowBetweenFirst: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginTop: 4,
-  },
-  company: {
+  sectionTitleFirst: {
     fontFamily: "Times-Bold",
     fontSize: 10,
-    maxWidth: "70%",
-  },
-  dateBold: {
-    fontFamily: "Times-Bold",
-    fontSize: 10,
-    textAlign: "right",
-    maxWidth: "30%",
-  },
-  titleItalic: {
-    fontFamily: "Times-Italic",
-    fontSize: 10,
+    textTransform: "uppercase",
+    letterSpacing: 1.2,
     marginTop: 4,
-    maxWidth: "70%",
+    marginBottom: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: "#000000",
+    paddingBottom: 2,
   },
-  bulletRow: { flexDirection: "row", marginTop: 4, paddingLeft: 4 },
-  bullet: { width: 12, fontFamily: "Times-Roman", fontSize: 10 },
-  bulletText: { flex: 1, fontFamily: "Times-Roman", fontSize: 10, lineHeight: 1.45 },
-  expSpacer: { marginBottom: 14 },
-  eduRowBetween: {
+  summary: { fontSize: 10.5, fontStyle: "italic", marginBottom: 6 },
+  expRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 8,
   },
-  eduSchool: { fontFamily: "Times-Bold", fontSize: 10, maxWidth: "72%" },
-  eduDate: { fontFamily: "Times-Bold", fontSize: 10, textAlign: "right" },
-  eduDegree: { fontFamily: "Times-Italic", fontSize: 10, marginTop: 4 },
-  skillsBlock: { marginTop: 4 },
-  skillLabel: { fontFamily: "Times-Bold", fontSize: 10, marginBottom: 2 },
-  skillLine: {
-    fontFamily: "Times-Roman",
-    fontSize: 10,
-    lineHeight: 1.3,
+  expRowFirst: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 4,
-    color: "#000000",
   },
-  summaryText: {
-    fontFamily: "Times-Roman",
-    fontSize: 10,
-    lineHeight: 1.22,
-    color: "#000000",
+  bold: { fontFamily: "Times-Bold" },
+  italic: { fontStyle: "italic" },
+  muted: { color: "#3f3f46" },
+  bulletRow: {
+    flexDirection: "row",
+    marginTop: 3,
+    paddingLeft: 4,
   },
+  bullet: { width: 12 },
+  bulletText: { flex: 1 },
+  eduItem: { marginTop: 8 },
+  eduItemFirst: { marginTop: 4 },
+  skillsLine: { marginTop: 4, lineHeight: 1.5 },
+  langLine: { marginTop: 4, lineHeight: 1.5, fontStyle: "italic" },
 });
 
 type Props = { draft: ResumeDraft };
@@ -113,57 +78,55 @@ type Props = { draft: ResumeDraft };
 export function SerifClassicPage({ draft }: Props) {
   const { contact, summary } = draft;
   const skills = parseSkillTokens(draft.skills);
-  const experiences = draft.experiences.filter(experienceHasBody);
+  const experiences = experienceRows(draft);
   const educations = educationRows(draft);
   const contactChunks = buildContactChunks(contact);
+  const languages = parseLanguageTokens(draft.languages);
 
   return (
     <Page size="LETTER" style={styles.page}>
-      <View wrap={false}>
-        <Text style={styles.name}>
-          {contact.fullName.trim() || "Your name"}
+      <View style={styles.header}>
+        <Text style={styles.name}>{contact.fullName || "Your name"}</Text>
+        <Text style={styles.contact}>
+          {contactChunks.map((chunk, i) => (
+            <Fragment key={i}>
+              {i > 0 ? " | " : ""}
+              {chunk.kind === "mailto" ? (
+                <Link
+                  src={chunk.href}
+                  style={{ color: "#000", textDecoration: "none" }}
+                >
+                  {chunk.label}
+                </Link>
+              ) : null}
+              {chunk.kind === "link" ? (
+                <Link
+                  src={chunk.href}
+                  style={{ color: "#000", textDecoration: "none" }}
+                >
+                  {chunk.label}
+                </Link>
+              ) : null}
+              {chunk.kind === "text" ? <Text>{chunk.label}</Text> : null}
+            </Fragment>
+          ))}
         </Text>
-        {contactChunks.length > 0 ? (
-          <Text style={styles.contactLine}>
-            {contactChunks.map((chunk, i) => (
-              <Fragment key={i}>
-                {i > 0 ? <Text> | </Text> : null}
-                {chunk.kind === "mailto" ? (
-                  <Link
-                    src={chunk.href}
-                    style={{ color: "#1d4ed8", textDecoration: "underline" }}
-                  >
-                    {chunk.label}
-                  </Link>
-                ) : null}
-                {chunk.kind === "link" ? (
-                  <Link
-                    src={chunk.href}
-                    style={{ color: "#1d4ed8", textDecoration: "underline" }}
-                  >
-                    {chunk.label}
-                  </Link>
-                ) : null}
-                {chunk.kind === "text" ? <Text>{chunk.label}</Text> : null}
-              </Fragment>
-            ))}
-          </Text>
-        ) : null}
-        <View style={styles.headerRule} />
       </View>
 
       {summary.trim() ? (
         <View>
-          <Text style={styles.sectionTitle}>Professional summary</Text>
-          <View style={styles.sectionRule} />
-          <Text style={styles.summaryText}>{summary.trim()}</Text>
+          <Text style={styles.sectionTitleFirst}>Professional Summary</Text>
+          <Text style={styles.summary}>{summary.trim()}</Text>
         </View>
       ) : null}
 
       {experiences.length > 0 ? (
         <View>
-          <Text style={styles.sectionTitle}>Work experience</Text>
-          <View style={styles.sectionRule} />
+          <Text
+            style={summary.trim() ? styles.sectionTitle : styles.sectionTitleFirst}
+          >
+            Experience
+          </Text>
           {experiences.map((exp, idx) => {
             const bullets = parseBulletLines(exp.bullets);
             const range = formatDateRange(
@@ -171,23 +134,21 @@ export function SerifClassicPage({ draft }: Props) {
               exp.endDate,
               exp.current,
             );
-            const company = exp.company.trim() || "Company";
-            const role = exp.role.trim() || "Title";
-            const isLast = idx === experiences.length - 1;
             return (
-              <View
-                key={exp.id}
-                style={isLast ? undefined : styles.expSpacer}
-              >
-                <View
-                  style={idx === 0 ? styles.rowBetweenFirst : styles.rowBetween}
-                >
-                  <Text style={styles.company}>{company}</Text>
-                  {range ? (
-                    <Text style={styles.dateBold}>{range}</Text>
-                  ) : null}
+              <View key={exp.id} style={{ marginBottom: 10 }}>
+                <View style={idx === 0 ? styles.expRowFirst : styles.expRow}>
+                  <Text style={styles.bold}>{exp.company || "Company"}</Text>
+                  <Text>{range}</Text>
                 </View>
-                <Text style={styles.titleItalic}>{role}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    marginTop: 2,
+                  }}
+                >
+                  <Text style={styles.italic}>{exp.role || "Role"}</Text>
+                </View>
                 {bullets.map((line, i) => (
                   <View key={i} style={styles.bulletRow}>
                     <Text style={styles.bullet}>•</Text>
@@ -203,20 +164,16 @@ export function SerifClassicPage({ draft }: Props) {
       {educations.length > 0 ? (
         <View>
           <Text style={styles.sectionTitle}>Education</Text>
-          <View style={styles.sectionRule} />
-          {educations.map((edu) => (
-            <View key={edu.id} style={{ marginBottom: 8 }}>
-              <View style={styles.eduRowBetween}>
-                <Text style={styles.eduSchool}>
-                  {edu.school.trim() || "School"}
-                </Text>
-                {edu.year.trim() ? (
-                  <Text style={styles.eduDate}>{edu.year.trim()}</Text>
-                ) : null}
+          {educations.map((edu, idx) => (
+            <View
+              key={edu.id}
+              style={idx === 0 ? styles.eduItemFirst : styles.eduItem}
+            >
+              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <Text style={styles.bold}>{edu.school || "School"}</Text>
+                <Text>{edu.year}</Text>
               </View>
-              {edu.degree.trim() ? (
-                <Text style={styles.eduDegree}>{edu.degree.trim()}</Text>
-              ) : null}
+              <Text style={styles.italic}>{edu.degree}</Text>
             </View>
           ))}
         </View>
@@ -224,16 +181,15 @@ export function SerifClassicPage({ draft }: Props) {
 
       {skills.length > 0 ? (
         <View>
-          <Text style={styles.sectionTitle}>
-            Skills & Interests
-          </Text>
-          <View style={styles.sectionRule} />
-          <View style={styles.skillsBlock}>
-            <Text style={styles.skillLabel}>Skills:</Text>
-            <Text style={styles.skillLine}>
-              {skills.join("  •  ")}
-            </Text>
-          </View>
+          <Text style={styles.sectionTitle}>Skills</Text>
+          <Text style={styles.skillsLine}>{skills.join(" • ")}</Text>
+        </View>
+      ) : null}
+
+      {languages.length > 0 ? (
+        <View>
+          <Text style={styles.sectionTitle}>Languages</Text>
+          <Text style={styles.langLine}>{languages.join("   ·   ")}</Text>
         </View>
       ) : null}
     </Page>

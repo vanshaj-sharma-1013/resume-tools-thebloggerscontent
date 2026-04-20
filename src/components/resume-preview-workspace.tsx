@@ -318,6 +318,19 @@ export function ResumePreviewWorkspace() {
                       }
                     />
                   </div>
+                  <div className="sm:col-span-2">
+                    <label className={labelClass} htmlFor="pv-github">
+                      GitHub
+                    </label>
+                    <input
+                      id="pv-github"
+                      className={inputClass}
+                      value={draft.contact.github}
+                      onChange={(e) =>
+                        updateContact({ github: e.target.value })
+                      }
+                    />
+                  </div>
                 </div>
               </section>
 
@@ -336,115 +349,130 @@ export function ResumePreviewWorkspace() {
                 <h2 className="text-sm font-semibold text-foreground">
                   Experience
                 </h2>
-                <div className="mt-4 space-y-6">
-                  {draft.experiences.map((exp, index) => (
-                    <div
-                      key={exp.id}
-                      className="rounded-lg border border-charcoal-border/70 bg-charcoal/25 p-4"
-                    >
-                      <div className="mb-3 flex items-center justify-between gap-2">
-                        <span className="font-mono text-[10px] text-secondary">
-                          role_{index + 1}
-                        </span>
-                        {draft.experiences.length > 1 ? (
-                          <button
-                            type="button"
-                            onClick={() => removeExperience(index)}
-                            className="text-xs text-foreground-muted hover:text-foreground"
-                          >
-                            Remove
-                          </button>
-                        ) : null}
-                      </div>
-                      <div className="grid gap-3 sm:grid-cols-2">
-                        <div className="sm:col-span-2">
-                          <label className={labelClass}>Company</label>
-                          <input
-                            className={inputClass}
-                            value={exp.company}
-                            onChange={(e) =>
-                              updateExperience(index, {
-                                company: e.target.value,
-                              })
-                            }
-                          />
+                <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-lg border border-charcoal-border/60 bg-charcoal/20 p-3">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5 rounded border-charcoal-border text-primary focus:ring-secondary"
+                    checked={draft.experienceSkipped}
+                    onChange={(e) =>
+                      updateDraft({ experienceSkipped: e.target.checked })
+                    }
+                  />
+                  <span className="text-sm text-foreground-muted">
+                    Skip experience on the PDF
+                  </span>
+                </label>
+                {!draft.experienceSkipped ? (
+                  <div className="mt-4 space-y-6">
+                    {draft.experiences.map((exp, index) => (
+                      <div
+                        key={exp.id}
+                        className="rounded-lg border border-charcoal-border/70 bg-charcoal/25 p-4"
+                      >
+                        <div className="mb-3 flex items-center justify-between gap-2">
+                          <span className="font-mono text-[10px] text-secondary">
+                            role_{index + 1}
+                          </span>
+                          {draft.experiences.length > 1 ? (
+                            <button
+                              type="button"
+                              onClick={() => removeExperience(index)}
+                              className="text-xs text-foreground-muted hover:text-foreground"
+                            >
+                              Remove
+                            </button>
+                          ) : null}
                         </div>
-                        <div className="sm:col-span-2">
-                          <label className={labelClass}>Job title</label>
-                          <input
-                            className={inputClass}
-                            value={exp.role}
-                            onChange={(e) =>
-                              updateExperience(index, { role: e.target.value })
-                            }
-                          />
-                        </div>
-                        <div>
-                          <label className={labelClass}>Start</label>
-                          <input
-                            className={inputClass}
-                            value={exp.startDate}
-                            onChange={(e) =>
-                              updateExperience(index, {
-                                startDate: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-                        <div>
-                          <label className={labelClass}>End</label>
-                          <input
-                            className={inputClass}
-                            disabled={exp.current}
-                            value={exp.endDate}
-                            onChange={(e) =>
-                              updateExperience(index, {
-                                endDate: e.target.value,
-                              })
-                            }
-                          />
-                          <label className="mt-2 flex items-center gap-2 text-xs text-foreground-muted">
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          <div className="sm:col-span-2">
+                            <label className={labelClass}>Company</label>
                             <input
-                              type="checkbox"
-                              className="rounded border-charcoal-border text-primary focus:ring-secondary"
-                              checked={exp.current}
+                              className={inputClass}
+                              value={exp.company}
                               onChange={(e) =>
                                 updateExperience(index, {
-                                  current: e.target.checked,
-                                  endDate: e.target.checked ? "" : exp.endDate,
+                                  company: e.target.value,
                                 })
                               }
                             />
-                            Current role
-                          </label>
-                        </div>
-                        <div className="sm:col-span-2">
-                          <label className={labelClass}>
-                            Bullets (one per line)
-                          </label>
-                          <textarea
-                            className={`${inputClass} min-h-[100px] resize-y font-mono text-xs`}
-                            value={exp.bullets}
-                            onChange={(e) =>
-                              updateExperience(index, {
-                                bullets: e.target.value,
-                              })
-                            }
-                          />
+                          </div>
+                          <div className="sm:col-span-2">
+                            <label className={labelClass}>Job title</label>
+                            <input
+                              className={inputClass}
+                              value={exp.role}
+                              onChange={(e) =>
+                                updateExperience(index, { role: e.target.value })
+                              }
+                            />
+                          </div>
+                          <div>
+                            <label className={labelClass}>Start</label>
+                            <input
+                              className={inputClass}
+                              value={exp.startDate}
+                              onChange={(e) =>
+                                updateExperience(index, {
+                                  startDate: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                          <div>
+                            <label className={labelClass}>End</label>
+                            <input
+                              className={inputClass}
+                              disabled={exp.current}
+                              value={exp.endDate}
+                              onChange={(e) =>
+                                updateExperience(index, {
+                                  endDate: e.target.value,
+                                })
+                              }
+                            />
+                            <label className="mt-2 flex items-center gap-2 text-xs text-foreground-muted">
+                              <input
+                                type="checkbox"
+                                className="rounded border-charcoal-border text-primary focus:ring-secondary"
+                                checked={exp.current}
+                                onChange={(e) =>
+                                  updateExperience(index, {
+                                    current: e.target.checked,
+                                    endDate: e.target.checked ? "" : exp.endDate,
+                                  })
+                                }
+                              />
+                              Current role
+                            </label>
+                          </div>
+                          <div className="sm:col-span-2">
+                            <label className={labelClass}>
+                              Bullets (one per line)
+                            </label>
+                            <textarea
+                              className={`${inputClass} min-h-[100px] resize-y font-mono text-xs`}
+                              value={exp.bullets}
+                              onChange={(e) =>
+                                updateExperience(index, {
+                                  bullets: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                  {draft.experiences.length < 3 ? (
-                    <button
-                      type="button"
-                      onClick={addExperience}
-                      className="w-full rounded-lg border border-dashed border-charcoal-border py-2.5 text-sm text-foreground-muted hover:border-secondary/40 hover:text-secondary"
-                    >
-                      + Add role
-                    </button>
-                  ) : null}
-                </div>
+                    ))}
+                    {draft.experiences.length < 3 ? (
+                      <button
+                        type="button"
+                        onClick={addExperience}
+                        className="w-full rounded-lg border border-dashed border-charcoal-border py-2.5 text-sm text-foreground-muted hover:border-secondary/40 hover:text-secondary"
+                      >
+                        + Add role
+                      </button>
+                    ) : null}
+                  </div>
+                ) : null}
               </section>
 
               <section className={sectionCard}>
@@ -547,6 +575,21 @@ export function ResumePreviewWorkspace() {
                   value={draft.skills}
                   onChange={(e) => updateDraft({ skills: e.target.value })}
                   placeholder="Comma-separated skills"
+                />
+              </section>
+
+              <section className={sectionCard}>
+                <h2 className="text-sm font-semibold text-foreground">
+                  Languages
+                </h2>
+                <p className="mt-1 text-xs text-foreground-muted">
+                  Comma- or line-separated. Example: English (Native), Spanish (Fluent)
+                </p>
+                <textarea
+                  className={`${inputClass} mt-3 min-h-[72px] resize-y`}
+                  value={draft.languages}
+                  onChange={(e) => updateDraft({ languages: e.target.value })}
+                  placeholder="English (Native), Spanish (Professional)"
                 />
               </section>
 

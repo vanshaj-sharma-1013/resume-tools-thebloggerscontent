@@ -23,18 +23,18 @@ const labelClass = "mb-1.5 block text-xs font-medium text-foreground-muted";
 const STEP_META = [
   {
     title: "Contact & headline",
-    eyebrow: "step_01_of_05",
+    eyebrow: "step_01_of_06",
     hint: "Recruiters look here first. Keep it accurate and scannable.",
     required: [
       "Full name and professional title",
       "A reliable email (required)",
-      "Phone is optional but recommended",
+      "LinkedIn and GitHub are optional",
     ],
     time: "~1 min",
   },
   {
     title: "Professional summary",
-    eyebrow: "step_02_of_05",
+    eyebrow: "step_02_of_06",
     hint: "Three or four sentences: who you are, what you solve, and proof of impact.",
     required: [
       "40+ characters (about 2 short sentences minimum)",
@@ -44,7 +44,7 @@ const STEP_META = [
   },
   {
     title: "Work experience",
-    eyebrow: "step_03_of_05",
+    eyebrow: "step_03_of_06",
     hint: "Start with your latest role. Bullets = one achievement per line.",
     required: [
       "Company and job title",
@@ -55,7 +55,7 @@ const STEP_META = [
   },
   {
     title: "Education",
-    eyebrow: "step_04_of_05",
+    eyebrow: "step_04_of_06",
     hint: "Degrees and certifications recruiters expect to see—skip if none yet.",
     required: [
       "Add one or more schools (degree required per entry), or skip",
@@ -63,10 +63,17 @@ const STEP_META = [
     time: "~30 sec",
   },
   {
-    title: "Skills & finish",
-    eyebrow: "step_05_of_05",
+    title: "Skills",
+    eyebrow: "step_05_of_06",
     hint: "Mix hard skills (tools, methods) with a few standout strengths.",
     required: ["At least 3 skills, comma-separated"],
+    time: "~30 sec",
+  },
+  {
+    title: "Languages",
+    eyebrow: "step_06_of_06",
+    hint: "List languages you are proficient in to stand out in global teams.",
+    required: ["Languages like English, Spanish, etc."],
     time: "~30 sec",
   },
 ] as const;
@@ -93,7 +100,7 @@ export function ResumeWizard() {
 
   const persistStep = useCallback(
     (next: number) => {
-      updateDraft({ currentStep: Math.min(5, Math.max(0, next)) });
+      updateDraft({ currentStep: Math.min(RESUME_STEP_COUNT, Math.max(0, next)) });
     },
     [updateDraft],
   );
@@ -126,6 +133,7 @@ export function ResumeWizard() {
       return true;
     }
     if (step === 2) {
+      if (draft.experienceSkipped) return true;
       const primary = draft.experiences[0];
       if (!primary.company.trim() || !primary.role.trim()) {
         setError("Add your company and job title for your main role.");
@@ -157,6 +165,10 @@ export function ResumeWizard() {
         setError("Add at least three skills, separated by commas.");
         return false;
       }
+      return true;
+    }
+    if (step === 5) {
+      // Languages are optional but recommended
       return true;
     }
     return true;
@@ -436,6 +448,21 @@ export function ResumeWizard() {
                           placeholder="https://"
                         />
                       </div>
+                      <div>
+                        <label className={labelClass} htmlFor="github">
+                          GitHub link{" "}
+                          <span className="text-foreground-subtle">(optional)</span>
+                        </label>
+                        <input
+                          id="github"
+                          className={inputClass}
+                          value={draft.contact.github}
+                          onChange={(e) =>
+                            updateContact({ github: e.target.value })
+                          }
+                          placeholder="github.com/username"
+                        />
+                      </div>
                     </div>
                   </>
                 ) : null}
@@ -462,121 +489,144 @@ export function ResumeWizard() {
 
                 {step === 2 ? (
                   <div className="space-y-8">
-                    {draft.experiences.map((exp, index) => (
-                      <div
-                        key={exp.id}
-                        className="rounded-xl border border-charcoal-border/80 bg-charcoal/40 p-4 sm:p-5"
-                      >
-                        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-                          <p className="font-mono text-xs text-secondary">
-                            role_{index + 1}
-                            {index === 0 ? " · primary" : ""}
-                          </p>
-                          {draft.experiences.length > 1 ? (
-                            <button
-                              type="button"
-                              onClick={() => removeExperience(index)}
-                              className="text-xs font-medium text-foreground-muted hover:text-foreground"
-                            >
-                              Remove
-                            </button>
-                          ) : null}
-                        </div>
-                        <div className="grid gap-4 sm:grid-cols-2">
-                          <div className="sm:col-span-2">
-                            <label className={labelClass}>Company</label>
-                            <input
-                              className={inputClass}
-                              value={exp.company}
-                              onChange={(e) =>
-                                updateExperience(index, {
-                                  company: e.target.value,
-                                })
-                              }
-                              placeholder="Acme Corp"
-                            />
+                    <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-charcoal-border bg-charcoal/30 p-4">
+                      <input
+                        type="checkbox"
+                        className="mt-1 rounded border-charcoal-border text-primary focus:ring-secondary"
+                        checked={draft.experienceSkipped}
+                        onChange={(e) =>
+                          updateDraft({ experienceSkipped: e.target.checked })
+                        }
+                      />
+                      <span>
+                        <span className="block text-sm font-medium text-foreground">
+                          Skip experience for now
+                        </span>
+                        <span className="mt-1 block text-xs text-foreground-muted">
+                          Use this if you have no formal work experience yet.
+                        </span>
+                      </span>
+                    </label>
+
+                    {!draft.experienceSkipped && (
+                      <>
+                        {draft.experiences.map((exp, index) => (
+                          <div
+                            key={exp.id}
+                            className="rounded-xl border border-charcoal-border/80 bg-charcoal/40 p-4 sm:p-5"
+                          >
+                            <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                              <p className="font-mono text-xs text-secondary">
+                                role_{index + 1}
+                                {index === 0 ? " · primary" : ""}
+                              </p>
+                              {draft.experiences.length > 1 ? (
+                                <button
+                                  type="button"
+                                  onClick={() => removeExperience(index)}
+                                  className="text-xs font-medium text-foreground-muted hover:text-foreground"
+                                >
+                                  Remove
+                                </button>
+                              ) : null}
+                            </div>
+                            <div className="grid gap-4 sm:grid-cols-2">
+                              <div className="sm:col-span-2">
+                                <label className={labelClass}>Company</label>
+                                <input
+                                  className={inputClass}
+                                  value={exp.company}
+                                  onChange={(e) =>
+                                    updateExperience(index, {
+                                      company: e.target.value,
+                                    })
+                                  }
+                                  placeholder="Acme Corp"
+                                />
+                              </div>
+                              <div className="sm:col-span-2">
+                                <label className={labelClass}>Job title</label>
+                                <input
+                                  className={inputClass}
+                                  value={exp.role}
+                                  onChange={(e) =>
+                                    updateExperience(index, { role: e.target.value })
+                                  }
+                                  placeholder="Engineering Lead"
+                                />
+                              </div>
+                              <div>
+                                <label className={labelClass}>Start</label>
+                                <input
+                                  className={inputClass}
+                                  value={exp.startDate}
+                                  onChange={(e) =>
+                                    updateExperience(index, {
+                                      startDate: e.target.value,
+                                    })
+                                  }
+                                  placeholder="Jan 2022"
+                                />
+                              </div>
+                              <div>
+                                <label className={labelClass}>End</label>
+                                <input
+                                  className={inputClass}
+                                  disabled={exp.current}
+                                  value={exp.endDate}
+                                  onChange={(e) =>
+                                    updateExperience(index, {
+                                      endDate: e.target.value,
+                                    })
+                                  }
+                                  placeholder="Present"
+                                />
+                                <label className="mt-2 flex cursor-pointer items-center gap-2 text-xs text-foreground-muted">
+                                  <input
+                                    type="checkbox"
+                                    className="rounded border-charcoal-border text-primary focus:ring-secondary"
+                                    checked={exp.current}
+                                    onChange={(e) =>
+                                      updateExperience(index, {
+                                        current: e.target.checked,
+                                        endDate: e.target.checked
+                                          ? ""
+                                          : exp.endDate,
+                                      })
+                                    }
+                                  />
+                                  I currently work here
+                                </label>
+                              </div>
+                              <div className="sm:col-span-2">
+                                <label className={labelClass}>
+                                  Impact bullets (one per line)
+                                </label>
+                                <textarea
+                                  className={`${inputClass} min-h-[120px] resize-y font-mono text-xs leading-relaxed sm:text-sm`}
+                                  value={exp.bullets}
+                                  onChange={(e) =>
+                                    updateExperience(index, {
+                                      bullets: e.target.value,
+                                    })
+                                  }
+                                  placeholder={"Cut deploy time 35% by introducing CI templates\nMentored 4 engineers through promo cycles"}
+                                />
+                              </div>
+                            </div>
                           </div>
-                          <div className="sm:col-span-2">
-                            <label className={labelClass}>Job title</label>
-                            <input
-                              className={inputClass}
-                              value={exp.role}
-                              onChange={(e) =>
-                                updateExperience(index, { role: e.target.value })
-                              }
-                              placeholder="Engineering Lead"
-                            />
-                          </div>
-                          <div>
-                            <label className={labelClass}>Start</label>
-                            <input
-                              className={inputClass}
-                              value={exp.startDate}
-                              onChange={(e) =>
-                                updateExperience(index, {
-                                  startDate: e.target.value,
-                                })
-                              }
-                              placeholder="Jan 2022"
-                            />
-                          </div>
-                          <div>
-                            <label className={labelClass}>End</label>
-                            <input
-                              className={inputClass}
-                              disabled={exp.current}
-                              value={exp.endDate}
-                              onChange={(e) =>
-                                updateExperience(index, {
-                                  endDate: e.target.value,
-                                })
-                              }
-                              placeholder="Present"
-                            />
-                            <label className="mt-2 flex cursor-pointer items-center gap-2 text-xs text-foreground-muted">
-                              <input
-                                type="checkbox"
-                                className="rounded border-charcoal-border text-primary focus:ring-secondary"
-                                checked={exp.current}
-                                onChange={(e) =>
-                                  updateExperience(index, {
-                                    current: e.target.checked,
-                                    endDate: e.target.checked
-                                      ? ""
-                                      : exp.endDate,
-                                  })
-                                }
-                              />
-                              I currently work here
-                            </label>
-                          </div>
-                          <div className="sm:col-span-2">
-                            <label className={labelClass}>
-                              Impact bullets (one per line)
-                            </label>
-                            <textarea
-                              className={`${inputClass} min-h-[120px] resize-y font-mono text-xs leading-relaxed sm:text-sm`}
-                              value={exp.bullets}
-                              onChange={(e) =>
-                                updateExperience(index, {
-                                  bullets: e.target.value,
-                                })
-                              }
-                              placeholder={"Cut deploy time 35% by introducing CI templates\nMentored 4 engineers through promo cycles"}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    {draft.experiences.length < 3 ? (
-                      <button
-                        type="button"
-                        onClick={addExperience}
-                        className="w-full rounded-lg border border-dashed border-charcoal-border py-3 text-sm font-medium text-foreground-muted transition-colors hover:border-secondary/50 hover:text-secondary"
-                      >
-                        + Add another role (optional)
-                      </button>
-                    ) : null}
+                        ))}
+                        {draft.experiences.length < 3 ? (
+                          <button
+                            type="button"
+                            onClick={addExperience}
+                            className="w-full rounded-lg border border-dashed border-charcoal-border py-3 text-sm font-medium text-foreground-muted transition-colors hover:border-secondary/50 hover:text-secondary"
+                          >
+                            + Add another role (optional)
+                          </button>
+                        ) : null}
+                      </>
+                    )}
                   </div>
                 ) : null}
 
@@ -706,6 +756,28 @@ export function ResumeWizard() {
                     </p>
                   </div>
                 ) : null}
+
+                {step === 5 ? (
+                  <div>
+                    <label className={labelClass} htmlFor="languages">
+                      Languages{" "}
+                      <span className="text-foreground-subtle">(optional)</span>
+                    </label>
+                    <textarea
+                      id="languages"
+                      className={`${inputClass} min-h-[100px] resize-y`}
+                      value={draft.languages}
+                      onChange={(e) =>
+                        updateDraft({ languages: e.target.value })
+                      }
+                      placeholder="English (Native), Spanish (Professional), German (Elementary)"
+                    />
+                    <p className="mt-2 text-xs text-foreground-subtle">
+                      List the languages you are proficient in. Example: English
+                      (Native), Spanish (Fluent).
+                    </p>
+                  </div>
+                ) : null}
               </div>
 
               {error ? (
@@ -765,8 +837,13 @@ export function ResumeWizard() {
               </li>
               <li className="flex gap-2">
                 <span className="text-secondary">✓</span>
-                {draft.experiences.length} role
-                {draft.experiences.length === 1 ? "" : "s"} ·{" "}
+                {draft.experienceSkipped
+                  ? "Experience skipped"
+                  : `${draft.experiences.length} role${draft.experiences.length === 1 ? "" : "s"
+                  }`}
+              </li>
+              <li className="flex gap-2">
+                <span className="text-secondary">✓</span>
                 {draft.educationSkipped
                   ? "Education skipped"
                   : "Education on file"}
@@ -775,6 +852,12 @@ export function ResumeWizard() {
                 <span className="text-secondary">✓</span>
                 {parseSkillTokens(draft.skills).length} skills listed
               </li>
+              {draft.languages.trim() && (
+                <li className="flex gap-2">
+                  <span className="text-secondary">✓</span>
+                  Languages added
+                </li>
+              )}
             </ul>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link

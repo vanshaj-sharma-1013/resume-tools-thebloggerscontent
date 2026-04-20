@@ -5,11 +5,13 @@ import type { PdfThemeTokens } from "@/lib/resume-pdf/theme-tokens";
 import {
   buildContactChunks,
   educationRows,
-  experienceHasBody,
+  experienceRows,
   formatDateRange,
   parseBulletLines,
+  parseLanguageTokens,
   parseSkillTokens,
 } from "@/lib/resume-pdf/shared-pdf";
+import { withHttp } from "@/lib/resume-pdf/contact-url";
 
 const styles = StyleSheet.create({
   page: {
@@ -110,9 +112,10 @@ type Props = { draft: ResumeDraft; t: PdfThemeTokens };
 export function AtsCanvasPage({ draft, t }: Props) {
   const { contact, summary } = draft;
   const skills = parseSkillTokens(draft.skills);
-  const experiences = draft.experiences.filter(experienceHasBody);
+  const experiences = experienceRows(draft);
   const educations = educationRows(draft);
   const contactChunks = buildContactChunks(contact);
+  const languages = parseLanguageTokens(draft.languages);
 
   const sectionTitle = (label: string) => (
     <View
@@ -278,6 +281,13 @@ export function AtsCanvasPage({ draft, t }: Props) {
         <View style={styles.sectionBlock}>
           {sectionTitle("Skills")}
           <Text style={styles.skillsLine}>{skills.join(" · ")}</Text>
+        </View>
+      ) : null}
+
+      {languages.length > 0 ? (
+        <View style={styles.sectionBlock}>
+          {sectionTitle("Languages")}
+          <Text style={styles.skillsLine}>{languages.join(" · ")}</Text>
         </View>
       ) : null}
     </Page>

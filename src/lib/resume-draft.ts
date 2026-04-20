@@ -11,6 +11,7 @@ export type ContactBlock = {
   location: string;
   linkedIn: string;
   website: string;
+  github: string;
 };
 
 export type ExperienceEntry = {
@@ -30,20 +31,22 @@ export type EducationEntry = {
   year: string;
 };
 
-/** Form steps 0–4; step 5 is the completion screen (still persisted). */
+/** Form steps 0–5; step 6 is the completion screen (still persisted). */
 export type ResumeDraft = {
   version: 1;
   themeId: ResumeThemeId | null;
   currentStep: number;
   contact: ContactBlock;
   summary: string;
+  experienceSkipped: boolean;
   experiences: ExperienceEntry[];
   educationSkipped: boolean;
   education: EducationEntry[];
   skills: string;
+  languages: string;
 };
 
-export const RESUME_STEP_COUNT = 5;
+export const RESUME_STEP_COUNT = 6;
 
 export function newId(prefix: string): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -86,12 +89,15 @@ export function defaultDraft(): ResumeDraft {
       location: "",
       linkedIn: "",
       website: "",
+      github: "",
     },
     summary: "",
+    experienceSkipped: false,
     experiences: [emptyExperience()],
     educationSkipped: false,
     education: [emptyEducation()],
     skills: "",
+    languages: "",
   };
 }
 
@@ -135,6 +141,7 @@ function coerceContact(raw: unknown): ContactBlock {
     location: typeof o.location === "string" ? o.location : "",
     linkedIn: typeof o.linkedIn === "string" ? o.linkedIn : "",
     website: typeof o.website === "string" ? o.website : "",
+    github: typeof o.github === "string" ? o.github : "",
   };
 }
 
@@ -149,7 +156,7 @@ export function normalizeDraft(raw: unknown): ResumeDraft {
 
   const currentStep =
     typeof o.currentStep === "number" && Number.isFinite(o.currentStep)
-      ? Math.min(5, Math.max(0, Math.floor(o.currentStep)))
+      ? Math.min(RESUME_STEP_COUNT, Math.max(0, Math.floor(o.currentStep)))
       : 0;
 
   const experiencesIn = Array.isArray(o.experiences) ? o.experiences : [];
@@ -160,7 +167,9 @@ export function normalizeDraft(raw: unknown): ResumeDraft {
 
   const educationIn = Array.isArray(o.education) ? o.education : [];
   const education =
-    educationIn.length > 0 ? educationIn.map(coerceEducation) : [emptyEducation()];
+    educationIn.length > 0
+      ? educationIn.map(coerceEducation)
+      : [emptyEducation()];
 
   return {
     version: 1,
@@ -168,10 +177,12 @@ export function normalizeDraft(raw: unknown): ResumeDraft {
     currentStep,
     contact: coerceContact(o.contact),
     summary: typeof o.summary === "string" ? o.summary : "",
+    experienceSkipped: Boolean(o.experienceSkipped),
     experiences,
     educationSkipped: Boolean(o.educationSkipped),
     education,
     skills: typeof o.skills === "string" ? o.skills : "",
+    languages: typeof o.languages === "string" ? o.languages : "",
   };
 }
 

@@ -4,12 +4,14 @@ import type { ResumeDraft } from "@/lib/resume-draft";
 import {
   buildContactChunks,
   educationRows,
-  experienceHasBody,
+  experienceRows,
   formatDateRange,
   parseBulletLines,
+  parseLanguageTokens,
   parseSkillTokens,
   splitSkillsIntoColumns,
 } from "@/lib/resume-pdf/shared-pdf";
+import { withHttp } from "@/lib/resume-pdf/contact-url";
 
 const BLUE = "#2563eb";
 const GRAY = "#6b7280";
@@ -132,6 +134,12 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   eduMeta: { fontSize: 8, color: GRAY, marginTop: 2 },
+  langLine: {
+    fontSize: 9,
+    color: "#111111",
+    lineHeight: 1.5,
+    marginTop: 2,
+  },
 });
 
 type Props = { draft: ResumeDraft };
@@ -147,13 +155,14 @@ function formatHeadline(title: string): string {
 export function ExecutiveTwoColumnPage({ draft }: Props) {
   const { contact, summary } = draft;
   const skills = parseSkillTokens(draft.skills);
-  const experiences = draft.experiences.filter(experienceHasBody);
+  const experiences = experienceRows(draft);
   const educations = educationRows(draft);
   const contactChunks = buildContactChunks(contact);
   const headline = contact.professionalTitle.trim()
     ? formatHeadline(contact.professionalTitle.trim())
     : "";
   const skillColumns = splitSkillsIntoColumns(skills, 2);
+  const languages = parseLanguageTokens(draft.languages);
 
   return (
     <Page size="LETTER" style={styles.page}>
@@ -286,6 +295,13 @@ export function ExecutiveTwoColumnPage({ draft }: Props) {
                   ) : null}
                 </View>
               ))}
+            </View>
+          ) : null}
+
+          {languages.length > 0 ? (
+            <View style={styles.sideSection}>
+              <Text style={styles.sideLabel}>Languages</Text>
+              <Text style={styles.langLine}>{languages.join("  ·  ")}</Text>
             </View>
           ) : null}
         </View>

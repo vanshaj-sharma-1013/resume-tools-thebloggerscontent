@@ -4,12 +4,14 @@ import type { ResumeDraft } from "@/lib/resume-draft";
 import {
   buildContactChunks,
   educationRows,
-  experienceHasBody,
+  experienceRows,
   formatDateRange,
   parseBulletLines,
+  parseLanguageTokens,
   parseSkillTokens,
   splitSkillsIntoColumns,
 } from "@/lib/resume-pdf/shared-pdf";
+import { withHttp } from "@/lib/resume-pdf/contact-url";
 
 const GRAY = "#6b7280";
 const DARK = "#171717";
@@ -116,6 +118,11 @@ const styles = StyleSheet.create({
     height: 10,
     backgroundColor: "#4b5563",
   },
+  langLine: {
+    fontSize: 10,
+    lineHeight: 1.5,
+    color: DARK,
+  },
 });
 
 type Props = { draft: ResumeDraft };
@@ -132,11 +139,12 @@ function centeredContactParts(contact: ResumeDraft["contact"]): string[] {
 export function CenteredMinimalPage({ draft }: Props) {
   const { contact, summary } = draft;
   const skills = parseSkillTokens(draft.skills);
-  const experiences = draft.experiences.filter(experienceHasBody);
+  const experiences = experienceRows(draft);
   const educations = educationRows(draft);
   const contactChunks = buildContactChunks(contact);
   const simpleParts = centeredContactParts(contact);
   const skillCols = splitSkillsIntoColumns(skills, 3);
+  const languages = parseLanguageTokens(draft.languages);
 
   return (
     <Page size="LETTER" style={styles.page}>
@@ -264,6 +272,13 @@ export function CenteredMinimalPage({ draft }: Props) {
               </View>
             ))}
           </View>
+        </View>
+      ) : null}
+
+      {languages.length > 0 ? (
+        <View style={styles.sectionGroup}>
+          <Text style={styles.sectionTitle}>Languages</Text>
+          <Text style={styles.langLine}>{languages.join("  ·  ")}</Text>
         </View>
       ) : null}
 
