@@ -86,10 +86,10 @@ export function HomeHero() {
               Create your resume
             </Link>
             <Link
-              href="#process"
+              href="/cover-letter-themes"
               className="inline-flex h-12 items-center justify-center rounded-lg border border-charcoal-border bg-charcoal-elevated/50 px-8 text-sm font-medium text-foreground transition-colors hover:border-secondary/50 hover:text-secondary"
             >
-              See how it works
+              Create cover letter
             </Link>
           </div>
           <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-foreground-muted">

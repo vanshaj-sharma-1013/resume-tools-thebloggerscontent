@@ -8,11 +8,12 @@ const navLinkClass =
 type SiteHeaderProps = {
   /** Highlights the active primary nav item for accessibility and UX */
   active?:
-    | "home"
-    | "resume-maker"
-    | "ats-checker"
-    | "about"
-    | "contact";
+  | "home"
+  | "resume-maker"
+  | "cover-letter"
+  | "ats-checker"
+  | "about"
+  | "contact";
 };
 
 export function SiteHeader({ active }: SiteHeaderProps) {
@@ -35,6 +36,13 @@ export function SiteHeader({ active }: SiteHeaderProps) {
               }`}
           >
             Resume Maker
+          </Link>
+          <Link
+            href="/cover-letter-maker"
+            className={`hidden sm:inline ${navLinkClass} ${active === "cover-letter" ? "text-secondary" : ""
+              }`}
+          >
+            Cover Letter
           </Link>
           <Link
             href="/ats-checker"

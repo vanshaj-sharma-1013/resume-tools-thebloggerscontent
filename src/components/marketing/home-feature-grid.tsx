@@ -65,6 +65,23 @@ const features = [
       </svg>
     ),
   },
+  {
+    title: "Cover letter support",
+    description:
+      "Generate matching cover letters with the same premium themes as your resume for a cohesive application package.",
+    icon: (
+      <svg className="size-6" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-secondary"
+        />
+      </svg>
+    ),
+  },
 ] as const;
 
 export function HomeFeatureGrid() {
