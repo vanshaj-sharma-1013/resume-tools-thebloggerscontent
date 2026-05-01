@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { MarketingPageShell } from "@/components/marketing/marketing-page-shell";
 import { SiteHeader } from "@/components/marketing/site-header";
@@ -36,16 +35,16 @@ export function BlogThemeShell({ category, posts }: BlogThemeShellProps) {
         {/* Hero Section */}
         <div className="relative overflow-hidden bg-slate-950/50 py-20 lg:py-32">
           <div className="container relative mx-auto px-4 text-center">
-            <div className={`mx-auto mb-6 inline-block rounded-full bg-gradient-to-r ${category.color} p-px`}>
+            <div className={`mx-auto mb-6 inline-block rounded-full bg-linear-to-r ${category.color} p-px`}>
               <div className="rounded-full bg-slate-950 px-4 py-1">
-                <span className={`bg-gradient-to-r ${category.color} bg-clip-text text-sm font-bold text-transparent`}>
+                <span className={`bg-linear-to-r ${category.color} bg-clip-text text-sm font-bold text-transparent`}>
                   {category.name}
                 </span>
               </div>
             </div>
             <h1 className="mb-6 text-4xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl">
               Knowledge Base for <br />
-              <span className={`bg-gradient-to-r ${category.color} bg-clip-text text-transparent`}>
+              <span className={`bg-linear-to-r ${category.color} bg-clip-text text-transparent`}>
                 {category.name}
               </span>
             </h1>
@@ -92,13 +91,13 @@ export function BlogThemeShell({ category, posts }: BlogThemeShellProps) {
                   </p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="h-6 w-6 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
+                      <div className="h-6 w-6 rounded-full bg-linear-to-br from-slate-700 to-slate-800 flex items-center justify-center">
                         <User className="h-3 w-3 text-slate-400" />
                       </div>
                       <span className="text-xs font-medium text-slate-300">{post.author}</span>
                     </div>
                     <span className="flex items-center gap-1 text-sm font-bold text-blue-400 opacity-0 transition-all group-hover:opacity-100">
-                      Read More <ArrowRight className="h-4 w-4" />
+                      Read More <ArrowRight />
                     </span>
                   </div>
                 </div>
