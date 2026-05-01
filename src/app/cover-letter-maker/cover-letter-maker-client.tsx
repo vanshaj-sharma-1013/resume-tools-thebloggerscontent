@@ -99,6 +99,12 @@ export function CoverLetterMakerClient() {
               Change Theme
             </Link>
             <Link
+              href="/blogs/guides/how-to-use-cover-letter-maker"
+              className="inline-flex items-center justify-center rounded-lg border border-charcoal-border px-4 py-2.5 text-sm font-medium text-foreground-muted transition-colors hover:border-secondary/40 hover:text-foreground"
+            >
+              Help & Guide
+            </Link>
+            <Link
               href="/resume-maker"
               className="inline-flex items-center justify-center rounded-lg border border-charcoal-border px-4 py-2.5 text-sm font-medium text-foreground-muted transition-colors hover:border-secondary/40 hover:text-foreground"
             >

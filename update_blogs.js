@@ -1,18 +1,19 @@
+const fs = require("fs");
+
+const blogsContent = `
 import { BlogPost, BlogCategory } from "@/types/blog";
 
 export const blogCategories: Record<string, BlogCategory> = {
   tools: {
     name: "Resume Tools",
     slug: "tools",
-    description:
-      "Discover the best tools to help you build a professional resume and landing your dream job.",
+    description: "Discover the best tools to help you build a professional resume and landing your dream job.",
     color: "from-cyan-500 to-blue-600",
   },
   guides: {
     name: "Career Guides",
     slug: "guides",
-    description:
-      "Expert advice and step-by-step guides on career growth, interview preparation, and job searching.",
+    description: "Expert advice and step-by-step guides on career growth, interview preparation, and job searching.",
     color: "from-purple-500 to-pink-600",
   },
 };
@@ -22,11 +23,10 @@ export const blogPosts: BlogPost[] = [
     id: "1",
     slug: "best-free-resume-builders-2026",
     title: "The 10 Best Free Resume Builders in 2026",
-    excerpt:
-      "Building a resume doesn't have to be expensive. We've rounded up the top free tools that offer premium features without the price tag.",
-    content: `<h2>Why You Need a Modern Resume Builder in 2026</h2>
+    excerpt: "Building a resume doesn't have to be expensive. We've rounded up the top free tools that offer premium features without the price tag.",
+    content: \`<h2>Why You Need a Modern Resume Builder in 2026</h2>
 <p>The job market in 2026 has become increasingly competitive. Gone are the days when a simple black-and-white word document would suffice to catch a recruiter's eye. Today, hiring managers spend an average of six seconds scanning a resume before deciding whether to move forward. To stand out, you need a document that is not only visually appealing but also structured to pass Applicant Tracking Systems (ATS) seamlessly.</p>
-<p>In this comprehensive guide, we delve deep into the best free resume builders available in 2026. These platforms have revolutionized the way job seekers approach their applications, offering enterprise-grade design tools, AI-powered writing assistance, and seamless export options all without forcing you to pull out your credit card.</p>
+<p>In this comprehensive guide, we delve deep into the best free resume builders available in 2026. These platforms have revolutionized the way job seekers approach their applications, offering enterprise-grade design tools, AI-powered writing assistance, and seamless export options—all without forcing you to pull out your credit card.</p>
 
 <h3>1. The Bloggers Content Resume Maker</h3>
 <p>Taking the number one spot is our very own The Bloggers Content Resume Maker. What sets this tool apart from the rest is its unwavering commitment to user privacy and a frictionless experience. Unlike other platforms that lure you in with "free" templates only to hit you with a paywall when you try to export, our platform is genuinely 100% free.</p>
@@ -88,20 +88,19 @@ export const blogPosts: BlogPost[] = [
 <p>When selecting a resume builder, consider your industry, your level of experience, and your budget.</p>
 <p>If you are in a creative field, Canva might be your best bet, provided you format it correctly. If you are struggling with content, a tool with strong AI suggestions might be worth paying for.</p>
 <p>However, if your primary goal is to quickly generate a professional, ATS-friendly document without jumping through hoops, paying hidden fees, or dealing with watermarks, <strong>The Bloggers Content Resume Maker</strong> stands out as the clear winner in 2026. By prioritizing user privacy and a frictionless experience, we empower job seekers to focus on what truly matters: landing the interview.</p>
-`,
-    author: "The Bloggers Content Team",
+\`,
+    author: "Career Expert",
     date: "April 27, 2026",
     category: "tools",
-    image: "/blogs-guides/default-blog-image.avif",
+    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop",
     readTime: "8 min read",
   },
   {
     id: "2",
     slug: "how-to-write-a-cover-letter",
     title: "Mastering the Art of the Cover Letter",
-    excerpt:
-      "A great cover letter can be the difference between getting an interview and being ignored. Learn how to write one that stands out.",
-    content: `<h2>The Evolution of the Cover Letter in 2026</h2>
+    excerpt: "A great cover letter can be the difference between getting an interview and being ignored. Learn how to write one that stands out.",
+    content: \`<h2>The Evolution of the Cover Letter in 2026</h2>
 <p>Despite the rise of automated screening systems and quick-apply buttons, the cover letter remains a critical component of the job application process. In 2026, hiring managers receive hundreds of resumes for a single open position. While a resume tells them <em>what</em> you have done, a cover letter explains <em>why</em> you are the perfect fit for their specific organization.</p>
 <p>The modern cover letter is no longer a generic, formal document that simply repeats the contents of your resume. Instead, it is a targeted, narrative-driven pitch that connects your past experiences directly to the employer's future needs.</p>
 
@@ -139,20 +138,19 @@ export const blogPosts: BlogPost[] = [
 <h3>Leveraging Technology</h3>
 <p>Crafting the perfect layout and ensuring your formatting remains pristine across different devices can be challenging. That is why we built the <strong>Cover Letter Maker</strong>. Our tool allows you to focus entirely on the content while we handle the design. With live PDF preview and instant, watermark-free exports, you can generate a tailored, professional cover letter in minutes.</p>
 <p>By mastering the art of the cover letter, you transform your application from a standard list of qualifications into a compelling argument for why you are the only candidate they should hire.</p>
-`,
-    author: "The Bloggers Content Team",
+\`,
+    author: "Hiring Manager",
     date: "April 25, 2026",
     category: "guides",
-    image: "/blogs-guides/art-of-cover-letter.jpg",
+    image: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?q=80&w=2080&auto=format&fit=crop",
     readTime: "9 min read",
   },
   {
     id: "3",
     slug: "how-to-use-resume-maker",
     title: "How to Use Our Free Resume Maker",
-    excerpt:
-      "Learn how to build a professional resume in minutes using our intuitive, theme-first resume maker. No login required.",
-    content: `<h2>The Ultimate Guide to Using Our Free Resume Maker</h2>
+    excerpt: "Learn how to build a professional resume in minutes using our intuitive, theme-first resume maker. No login required.",
+    content: \`<h2>The Ultimate Guide to Using Our Free Resume Maker</h2>
 <p>Building a professional resume shouldn't be a daunting task. You shouldn't have to navigate complex software, worry about formatting inconsistencies, or hit an unexpected paywall right as you're about to download your finished document. We designed our Free Resume Maker to solve these exact problems. In this comprehensive, step-by-step guide, we will walk you through everything you need to know to maximize the potential of our tool and create a resume that gets you hired.</p>
 
 <h3>The Philosophy Behind Our Builder</h3>
@@ -165,7 +163,7 @@ export const blogPosts: BlogPost[] = [
 
 <h3>Step 1: Selecting the Perfect Theme</h3>
 <p>Your journey begins at the theme selection screen. The visual presentation of your resume sets the first impression, so it is crucial to choose a design that aligns with your industry and personal brand.</p>
-<p>We offer a carefully curated selection of themes, ranging from the ultra-modern 'Creative Elegant' perfect for designers and marketers to the highly structured 'Classic Executive' ideal for finance, law, and corporate roles. Take your time to browse the options. The beauty of our system is that your choice is not permanent; you can easily switch themes later without losing any of the content you have entered.</p>
+<p>We offer a carefully curated selection of themes, ranging from the ultra-modern 'Creative Elegant'—perfect for designers and marketers—to the highly structured 'Classic Executive'—ideal for finance, law, and corporate roles. Take your time to browse the options. The beauty of our system is that your choice is not permanent; you can easily switch themes later without losing any of the content you have entered.</p>
 
 <h3>Step 2: Entering Your Core Details</h3>
 <p>Once you have selected a theme, you will enter the main editor. The editor is split into a guided input form on the left and a live, real-time PDF preview on the right. This dual-pane view ensures you immediately see how your text impacts the overall layout.</p>
@@ -189,20 +187,19 @@ export const blogPosts: BlogPost[] = [
 
 <h3>Conclusion</h3>
 <p>Our Free Resume Maker is designed to remove the stress and financial burden from the job application process. By following these steps and leveraging the power of our intuitive editor, you can create a standout resume that significantly boosts your chances of securing your next interview. Start building today, entirely for free, and take the next big step in your career.</p>
-`,
-    author: "The Bloggers Content Team",
+\`,
+    author: "Resume Expert",
     date: "April 30, 2026",
     category: "guides",
-    image: "/blogs-guides/how-to-use-free-resume-maker.jpg",
+    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop",
     readTime: "10 min read",
   },
   {
     id: "4",
     slug: "how-to-use-ats-checker",
     title: "How to Use the ATS Resume Checker",
-    excerpt:
-      "Understand how to use our ATS Checker to get blunt, parser-first feedback on your resume and improve your chances of passing automated screenings.",
-    content: `<h2>Demystifying the ATS Scan: A Comprehensive Guide to Our Checker</h2>
+    excerpt: "Understand how to use our ATS Checker to get blunt, parser-first feedback on your resume and improve your chances of passing automated screenings.",
+    content: \`<h2>Demystifying the ATS Scan: A Comprehensive Guide to Our Checker</h2>
 <p>If you have been applying for jobs online, you have almost certainly encountered an Applicant Tracking System (ATS). Over 98% of Fortune 500 companies, and a rapidly growing number of small and medium-sized businesses, rely on these automated systems to filter through the massive volume of incoming resumes. Understanding how an ATS works, and more importantly, how to optimize your resume to pass its initial scan, is absolutely critical to your job search success.</p>
 <p>Our ATS Resume Checker was built to give you a behind-the-scenes look at exactly how these systems interpret your document. We provide blunt, actionable, and parser-first feedback to ensure your resume actually reaches human eyes. Here is a deep dive into how to use this powerful tool.</p>
 
@@ -211,7 +208,7 @@ export const blogPosts: BlogPost[] = [
 <p>The problem arises when a resume is heavily formatted with complex columns, text boxes, tables, or unusual fonts. The ATS parser can become confused, resulting in garbled text or entirely missing sections. If the ATS cannot read your experience, it assumes you do not have any, and your application is automatically rejected. Our ATS Checker helps you identify and eliminate these parsing risks.</p>
 
 <h3>Step 1: Preparing Your Document</h3>
-<p>Before you use the checker, ensure your resume is in PDF format. While some older ATS platforms preferred Word documents, PDF is the universal standard in 2026, as it locks in your visual formatting while preserving the underlying text layer provided it was generated correctly (like the PDFs created by our Resume Maker).</p>
+<p>Before you use the checker, ensure your resume is in PDF format. While some older ATS platforms preferred Word documents, PDF is the universal standard in 2026, as it locks in your visual formatting while preserving the underlying text layer—provided it was generated correctly (like the PDFs created by our Resume Maker).</p>
 <p>Ensure your file is not password protected and does not contain scanned images of text, as the parser relies on actual digital text characters, not optical character recognition (OCR).</p>
 
 <h3>Step 2: Running the Analysis</h3>
@@ -230,27 +227,26 @@ export const blogPosts: BlogPost[] = [
 <p>If the checker flags any of these issues, strongly consider using a cleaner, single-column template, such as the 'Modern Minimal' option in our Resume Maker.</p>
 
 <h3>Step 5: Keyword Density and Relevance</h3>
-<p>The second critical component of the ATS scan is keyword matching. When a recruiter opens a requisition, they program the ATS to search for specific keywords usually hard skills, software proficiencies, and specific job titles.</p>
+<p>The second critical component of the ATS scan is keyword matching. When a recruiter opens a requisition, they program the ATS to search for specific keywords—usually hard skills, software proficiencies, and specific job titles.</p>
 <p>Our checker analyzes the text of your resume and identifies the dominant keywords. Review this list carefully. Do these keywords accurately reflect the jobs you are applying for? If you are applying for a Senior Data Analyst position, but your most frequently used words are "customer service" and "managed," the ATS will likely rank you low for the analyst role.</p>
 <p>To fix this, tailor your resume. Incorporate the exact phrasing used in the job descriptions you are targeting. If the job asks for "Project Management Professional (PMP)," write exactly that, rather than just "project management certification."</p>
 
 <h3>Step 6: Iteration and Improvement</h3>
 <p>The ATS Checker is not a one-and-done tool. It is an iterative compass. Once you review the blunt feedback, return to your resume document. Simplify the formatting, weave in the missing high-value keywords, and ensure your section headings use standard terminology (e.g., use "Work Experience" instead of "Professional Journey").</p>
 <p>After making these adjustments, export your new PDF and run it through the checker again. You should see a noticeable improvement in your score. By systematically removing parsing friction and increasing keyword relevance, you dramatically improve the odds that your resume will survive the automated scan and land on the desk of the hiring manager.</p>
-`,
-    author: "The Bloggers Content Team",
+\`,
+    author: "Hiring Manager",
     date: "April 30, 2026",
     category: "guides",
-    image: "/blogs-guides/how-to-use-free-ats-checker.jpg",
+    image: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?q=80&w=2080&auto=format&fit=crop",
     readTime: "11 min read",
   },
   {
     id: "5",
     slug: "how-to-use-cover-letter-maker",
     title: "How to Use the Cover Letter Maker",
-    excerpt:
-      "A step-by-step guide to writing and generating a beautifully formatted cover letter that matches your resume perfectly.",
-    content: `<h2>Crafting the Perfect Narrative: Using the Cover Letter Maker</h2>
+    excerpt: "A step-by-step guide to writing and generating a beautifully formatted cover letter that matches your resume perfectly.",
+    content: \`<h2>Crafting the Perfect Narrative: Using the Cover Letter Maker</h2>
 <p>While a resume provides a structured timeline of your career, a cover letter offers a blank canvas to tell your professional story. It is your opportunity to express passion, explain career transitions, and directly address why you are uniquely suited for a specific role. To ensure your narrative is presented beautifully and cohesively alongside your resume, we developed the advanced Cover Letter Maker.</p>
 <p>This comprehensive guide will walk you through the process of utilizing our tool to create a highly effective, beautifully formatted cover letter without the usual design headaches.</p>
 
@@ -283,37 +279,36 @@ export const blogPosts: BlogPost[] = [
 <h3>Step 5: Final Review and Export</h3>
 <p>Once your content is perfected and you are satisfied with the visual balance shown in the preview, input your preferred "Sign-off" (e.g., "Sincerely," or "Best regards,"). Take one final pass to check for any spelling or grammatical errors.</p>
 <p>When you are ready, click the "Download PDF" button. The system will instantly generate a high-resolution, watermark-free PDF. Because our tool runs in your browser, the generation is lightning-fast and entirely private. You now possess a premium, cohesive cover letter ready to accompany your resume and impress any hiring manager.</p>
-`,
-    author: "The Bloggers Content Team",
+\`,
+    author: "Career Coach",
     date: "April 30, 2026",
     category: "guides",
-    image: "/blogs-guides/how-to-use-cover-letter-maker.jpg",
+    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop",
     readTime: "9 min read",
   },
   {
     id: "6",
     slug: "how-to-use-resume-tools",
     title: "Mastering Our Resume Tools: A Complete Guide",
-    excerpt:
-      "Get the most out of our suite of free career tools. Learn how to combine the Resume Maker, Cover Letter Builder, and ATS Checker for maximum impact.",
-    content: `<h2>Your Ultimate Job Application Workflow</h2>
-<p>Navigating the modern job market requires more than just a list of past jobs; it requires a strategic, optimized approach to presenting your professional brand. We built our suite of tools the Resume Maker, the ATS Checker, and the Cover Letter Maker not as isolated utilities, but as an integrated ecosystem designed to maximize your chances of securing interviews.</p>
+    excerpt: "Get the most out of our suite of free career tools. Learn how to combine the Resume Maker, Cover Letter Builder, and ATS Checker for maximum impact.",
+    content: \`<h2>Your Ultimate Job Application Workflow</h2>
+<p>Navigating the modern job market requires more than just a list of past jobs; it requires a strategic, optimized approach to presenting your professional brand. We built our suite of tools—the Resume Maker, the ATS Checker, and the Cover Letter Maker—not as isolated utilities, but as an integrated ecosystem designed to maximize your chances of securing interviews.</p>
 <p>Used individually, each tool provides immense value. Used together in a strategic workflow, they create an enterprise-grade application package that easily outperforms candidates using generic word processor templates. This comprehensive guide outlines the optimal workflow for mastering our platform.</p>
 
 <h3>Phase 1: Foundation Building with the Resume Maker</h3>
 <p>Your journey begins with the Resume Maker. This is the cornerstone of your application package.</p>
 <p>Start by selecting a theme that reflects the tone of your industry. A graphic designer might lean towards 'Creative Elegant', while an accountant should likely choose 'Classic Executive'. Once selected, leverage the distraction-free editor to input your history.</p>
-<p>Focus heavily on writing achievement-driven bullet points rather than task-based lists. Use the live PDF preview to manage your spacing. Ensure your resume breathes avoid dense blocks of text that fatigue the reader. Your goal in this phase is to produce a visually striking, well-written document. Once satisfied, download your initial PDF draft.</p>
+<p>Focus heavily on writing achievement-driven bullet points rather than task-based lists. Use the live PDF preview to manage your spacing. Ensure your resume breathes—avoid dense blocks of text that fatigue the reader. Your goal in this phase is to produce a visually striking, well-written document. Once satisfied, download your initial PDF draft.</p>
 
 <h3>Phase 2: Optimization via the ATS Checker</h3>
 <p>Before you send that beautiful resume anywhere, it must be pressure-tested. This is where the ATS Checker becomes your most valuable asset.</p>
 <p>Upload the PDF you just generated into the ATS Checker. The system will simulate how a corporate parser reads your file. Pay close attention to the resulting score and the blunt feedback provided. The checker will identify if your chosen formatting is causing parsing errors and will highlight your dominant keywords.</p>
-<p>Cross-reference the checker's keyword list with the specific job description you are targeting. If critical skills requested by the employer are missing from the checker's extraction, it means the ATS won't see them either. Take these insights, return to the Resume Maker, and refine your text. Iterate this process editing in the Resume Maker and re-testing in the ATS Checker until you achieve a high parsability score and strong keyword alignment. Once optimized, download the final, employer-ready resume PDF.</p>
+<p>Cross-reference the checker's keyword list with the specific job description you are targeting. If critical skills requested by the employer are missing from the checker's extraction, it means the ATS won't see them either. Take these insights, return to the Resume Maker, and refine your text. Iterate this process—editing in the Resume Maker and re-testing in the ATS Checker—until you achieve a high parsability score and strong keyword alignment. Once optimized, download the final, employer-ready resume PDF.</p>
 
 <h3>Phase 3: The Narrative Polish with the Cover Letter Maker</h3>
 <p>With an optimized, ATS-proof resume in hand, it is time to craft your narrative pitch using the Cover Letter Maker.</p>
 <p>The crucial first step here is visual alignment. Select the exact same theme you used for your final resume. This creates a cohesive, highly professional brand presentation.</p>
-<p>Use the editor to input your contact details, mirroring the information on your resume. Then, write a compelling body that does not simply repeat your resume, but expands upon your most relevant achievements. Use the live preview to ensure your letter remains concise ideally occupying no more than three-quarters of a single page. Once the text is perfected, download your watermark-free cover letter PDF.</p>
+<p>Use the editor to input your contact details, mirroring the information on your resume. Then, write a compelling body that does not simply repeat your resume, but expands upon your most relevant achievements. Use the live preview to ensure your letter remains concise—ideally occupying no more than three-quarters of a single page. Once the text is perfected, download your watermark-free cover letter PDF.</p>
 
 <h3>The Final Package</h3>
 <p>By following this three-phase workflow, you have transformed raw career data into a powerful, multi-faceted application. You now possess:</p>
@@ -323,30 +318,29 @@ export const blogPosts: BlogPost[] = [
 <li>A narrative-driven, aesthetically matched cover letter that directly targets the employer's needs.</li>
 </ol>
 <p>This level of preparation and presentation signals extreme professionalism to hiring managers. It shows that you are thorough, technically proficient, and serious about your personal brand. By mastering our suite of free tools, you take control of the application process and significantly elevate your standing in the competitive 2026 job market.</p>
-`,
-    author: "The Bloggers Content Team",
+\`,
+    author: "Product Team",
     date: "April 30, 2026",
     category: "guides",
-    image: "/blogs-guides/master-all-resume-tools.jpg",
+    image: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?q=80&w=2080&auto=format&fit=crop",
     readTime: "12 min read",
   },
   {
     id: "7",
     slug: "why-our-resume-tools-are-best",
     title: "Why Our Resume Tools Are Revolutionizing Job Searches",
-    excerpt:
-      "We built these tools because the industry is filled with paywalls, hidden fees, and watermarks. Here's why we're different and better.",
-    content: `<h2>The Broken State of Online Resume Builders</h2>
+    excerpt: "We built these tools because the industry is filled with paywalls, hidden fees, and watermarks. Here's why we're different and better.",
+    content: \`<h2>The Broken State of Online Resume Builders</h2>
 <p>The online resume building industry has been broken for a very long time. If you have searched for a "free resume maker" anytime in the last decade, you know the exact, frustrating bait-and-switch pattern that plagues almost every major platform on the internet.</p>
 <p>It starts with a promise of a free tool and a gallery of beautiful templates. You spend 45 minutes to an hour painstakingly entering your entire work history, carefully formatting your bullet points, and adjusting your skills section. You finally get the document looking perfect. You click the "Download" button, eager to start applying for jobs. And then, the trap snaps shut.</p>
 <p>You are hit with a paywall demanding a monthly subscription just to download the file you created. Or, if there is a free tier, the resulting PDF is plastered with a massive, unprofessional watermark that makes it unusable for serious job applications. Furthermore, many of these platforms force you to create accounts, verify emails, and subsequently bombard your inbox with marketing spam while selling your employment data to third-party recruiters.</p>
-<p>The process is deceptive, frustrating, and exploits people at a highly vulnerable time when they are actively searching for employment. We decided enough was enough. We built The Bloggers Content Resume Tools to completely revolutionize this experience.</p>
+<p>The process is deceptive, frustrating, and exploits people at a highly vulnerable time—when they are actively searching for employment. We decided enough was enough. We built The Bloggers Content Resume Tools to completely revolutionize this experience.</p>
 
 <h2>Our Core Philosophy: Radical User-Centricity</h2>
 <p>When we set out to build our suite of tools, we established a strict set of principles designed to put the user first in every single interaction. We believe that securing a job is hard enough; the tools you use to build your application should alleviate stress, not add to it.</p>
 
 <h3>1. Truly Free, No Bait-and-Switch</h3>
-<p>The core functionality of our platform building, previewing, and downloading your documents is 100% free. There are no hidden paywalls that appear at the final step. There are no trial periods that automatically convert into expensive monthly subscriptions. When we say free, we mean free.</p>
+<p>The core functionality of our platform—building, previewing, and downloading your documents—is 100% free. There are no hidden paywalls that appear at the final step. There are no trial periods that automatically convert into expensive monthly subscriptions. When we say free, we mean free.</p>
 
 <h3>2. Zero Watermarks</h3>
 <p>Your resume is a representation of your professional identity, not a billboard for our software. We believe that adding watermarks to a user's resume is fundamentally disrespectful to their career journey. Every PDF generated on our platform, whether it is a resume or a cover letter, is completely clean, pristine, and ready to be submitted to top-tier employers.</p>
@@ -373,11 +367,15 @@ export const blogPosts: BlogPost[] = [
 
 <h2>The Future of Job Applications</h2>
 <p>We are revolutionizing the job search process by providing enterprise-grade tools with zero friction and absolute respect for user privacy. By removing financial barriers and deceptive practices, we empower job seekers worldwide to present their best professional selves. Try our tools today, entirely for free, and experience the new standard in career advancement technology.</p>
-`,
-    author: "The Bloggers Content Team",
+\`,
+    author: "Founder",
     date: "April 30, 2026",
     category: "tools",
-    image: "/blogs-guides/default-blog-image.avif",
+    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop",
     readTime: "15 min read",
-  },
+  }
 ];
+`;
+
+fs.writeFileSync("src/data/blogs.ts", blogsContent, "utf8");
+console.log("Successfully wrote massive blogs to src/data/blogs.ts");

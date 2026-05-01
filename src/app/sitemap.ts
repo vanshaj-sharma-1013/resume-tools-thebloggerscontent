@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getSiteOrigin } from "@/lib/site-config";
+import { blogPosts, blogCategories } from "@/data/blogs";
 
 type PageEntry = {
   route: string;
@@ -18,16 +18,35 @@ const pages: PageEntry[] = [
   { route: "/resume-preview", changeFrequency: "weekly", priority: 0.75 },
   { route: "/legal/privacy", changeFrequency: "monthly", priority: 0.45 },
   { route: "/legal/terms", changeFrequency: "monthly", priority: 0.45 },
+  { route: "/blogs", changeFrequency: "weekly", priority: 0.8 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const origin =  "https://freeresumetools.thebloggerscontent.com"
+  const origin = "https://freeresumetools.thebloggerscontent.com";
   const lastModified = new Date();
 
-  return pages.map((page) => ({
+  const staticPages: MetadataRoute.Sitemap = pages.map((page) => ({
     url: `${origin}${page.route}`,
     lastModified,
     changeFrequency: page.changeFrequency,
     priority: page.priority,
   }));
+
+  const categoryPages: MetadataRoute.Sitemap = Object.values(
+    blogCategories,
+  ).map((category) => ({
+    url: `${origin}/blogs/${category.slug}`,
+    lastModified,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  const postPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${origin}/blogs/${post.category}/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...categoryPages, ...postPages];
 }

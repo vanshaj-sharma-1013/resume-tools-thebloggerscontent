@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { defaultDescription, getSiteOrigin, SITE_NAME } from "@/lib/site-config";
 import { ATSCheckerClient } from "./ats-checker-client";
+import Link from "next/link";
 
 const origin = getSiteOrigin();
 
@@ -63,6 +64,14 @@ export default function AtsCheckerPage() {
               Heuristic, not a guarantee of any employer&apos;s system
             </li>
           </ul>
+          <div className="mt-8">
+            <Link
+              href="/blogs/guides/how-to-use-ats-checker"
+              className="inline-flex items-center justify-center rounded-lg border border-charcoal-border px-4 py-2 text-sm font-medium text-foreground-muted transition-colors hover:border-secondary/40 hover:text-foreground"
+            >
+              Read the ATS Checker Guide
+            </Link>
+          </div>
         </div>
         <ATSCheckerClient />
       </main>

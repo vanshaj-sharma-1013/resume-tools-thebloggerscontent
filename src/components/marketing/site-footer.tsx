@@ -68,6 +68,16 @@ export function SiteFooter() {
                   Contact us
                 </Link>
               </li>
+              <li>
+                <Link href="/blogs" className={linkClass}>
+                  Blogs
+                </Link>
+              </li>
+              <li>
+                <Link href="/blogs/guides" className={linkClass}>
+                  Guides
+                </Link>
+              </li>
             </ul>
           </div>
 

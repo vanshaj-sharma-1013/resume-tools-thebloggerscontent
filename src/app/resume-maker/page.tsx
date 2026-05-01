@@ -170,6 +170,12 @@ export default function ResumeMakerPage() {
                   Start free resume maker
                 </Link>
                 <Link
+                  href="/blogs/guides/how-to-use-resume-maker"
+                  className="inline-flex h-12 items-center justify-center rounded-lg border border-charcoal-border px-8 text-sm font-semibold text-foreground-muted transition-colors hover:border-secondary/40 hover:text-foreground"
+                >
+                  Read Guide
+                </Link>
+                <Link
                   href="/"
                   className="text-center text-sm font-medium text-secondary underline-offset-4 hover:underline sm:text-left"
                 >
